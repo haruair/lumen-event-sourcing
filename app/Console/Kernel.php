@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\WithdrawBalance::class,
         Commands\DepositBalance::class,
         Commands\BankAccountStatus::class,
+        Commands\TestBankAccount::class,
     ];
 
     /**

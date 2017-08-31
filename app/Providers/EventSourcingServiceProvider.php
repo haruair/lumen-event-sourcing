@@ -24,10 +24,17 @@ class EventSourcingServiceProvider extends ServiceProvider
             Doctrine\DBAL\Connection::class,
             DB::getDoctrineConnection()
         );
-        
+
         $app->singleton(
             Broadway\EventHandling\EventBus::class,
-            Broadway\EventHandling\SimpleEventBus::class
+            function ($app) {
+                // Is this okay to do?
+                $projector = $app->make(KoalaBank\Account\Projectors\TransactionProjector::class);
+
+                $bus = new Broadway\EventHandling\SimpleEventBus;
+                $bus->subscribe($projector);
+                return $bus;
+            }
         );
         
         $app->singleton(
